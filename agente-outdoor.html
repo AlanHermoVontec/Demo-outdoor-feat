@@ -1,0 +1,56 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Agente Outdoor Feat</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 600px;
+      margin: 40px auto;
+      padding: 20px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+    }
+    input, button {
+      padding: 10px;
+      font-size: 16px;
+    }
+    #chat {
+      white-space: pre-wrap;
+      background: #f9f9f9;
+      border-radius: 4px;
+      padding: 15px;
+      margin-top: 20px;
+      min-height: 100px;
+    }
+  </style>
+</head>
+<body>
+  <h2>Asistente de ventas Outdoor Feat</h2>
+  <p>Hazle una pregunta sobre productos:</p>
+  <input type="text" id="userInput" placeholder="Ej: Busco una carpa impermeable para 2 personas" style="width: 100%;" />
+  <button onclick="enviarMensaje()">Enviar</button>
+  <div id="chat"></div>
+
+  <script>
+    async function enviarMensaje() {
+      const texto = document.getElementById('userInput').value;
+      const chat = document.getElementById('chat');
+
+      chat.innerText = 'Esperando respuesta...';
+
+      try {
+        const res = await fetch('https://hook.us2.make.com/laohi79a901jwo6vyam3u5ap7wznfvnb?texto=' + encodeURIComponent(texto));
+        const data = await res.text();
+
+        chat.innerText = data;
+      } catch (error) {
+        chat.innerText = 'Error al contactar al agente: ' + error.message;
+      }
+    }
+  </script>
+</body>
+</html>
