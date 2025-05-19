@@ -7,42 +7,88 @@
   <style>
     body {
       font-family: Arial, sans-serif;
+      background-color: #f0f2f5;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+    }
+    .chat-container {
       max-width: 600px;
-      margin: 40px auto;
-      padding: 20px;
-      border: 1px solid #ddd;
+      margin: auto;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      background: white;
       border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      overflow: hidden;
     }
-    input, button {
-      padding: 10px;
-      font-size: 16px;
+    .chat-header {
+      padding: 16px;
+      background-color: #004aad;
+      color: white;
+      font-size: 20px;
     }
-    #chat {
-      background: #f9f9f9;
-      border-radius: 4px;
-      padding: 15px;
-      margin-top: 20px;
-      min-height: 200px;
-      max-height: 400px;
+    .chat-body {
+      flex: 1;
+      padding: 16px;
       overflow-y: auto;
+      display: flex;
+      flex-direction: column;
     }
-    .msg {
+    .chat-input {
+      display: flex;
+      padding: 16px;
+      border-top: 1px solid #ddd;
+    }
+    .chat-input input {
+      flex: 1;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 20px;
+      font-size: 16px;
+      margin-right: 8px;
+    }
+    .chat-input button {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 20px;
+      background-color: #004aad;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    .message {
+      max-width: 75%;
+      padding: 10px 15px;
       margin-bottom: 10px;
+      border-radius: 15px;
+      line-height: 1.4;
+      word-wrap: break-word;
     }
-    .user {
-      font-weight: bold;
+    .user-message {
+      background-color: #d1e7dd;
+      align-self: flex-end;
+      border-bottom-right-radius: 0;
     }
-    .bot {
-      color: #444;
+    .bot-message {
+      background-color: #f1f1f1;
+      align-self: flex-start;
+      border-bottom-left-radius: 0;
     }
   </style>
 </head>
 <body>
-  <h2>Asistente de ventas Outdoor Feat</h2>
-  <p>Hazle una pregunta sobre productos:</p>
-  <input type="text" id="userInput" placeholder="Ej: Busco una carpa impermeable para 2 personas" style="width: 100%;" />
-  <button onclick="enviarMensaje()">Enviar</button>
-  <div id="chat"></div>
+  <div class="chat-container">
+    <div class="chat-header">Asistente de Outdoor Feat</div>
+    <div class="chat-body" id="chat"></div>
+    <div class="chat-input">
+      <input type="text" id="userInput" placeholder="Escribe tu consulta aquí..." />
+      <button onclick="enviarMensaje()">Enviar</button>
+    </div>
+  </div>
 
   <script>
     let historial = [];
@@ -50,8 +96,8 @@
     function agregarMensaje(tipo, texto) {
       const chat = document.getElementById('chat');
       const div = document.createElement('div');
-      div.classList.add('msg', tipo);
-      div.innerText = (tipo === 'user' ? 'Tú: ' : 'Asistente: ') + texto;
+      div.className = `message ${tipo}-message`;
+      div.textContent = texto;
       chat.appendChild(div);
       chat.scrollTop = chat.scrollHeight;
     }
@@ -62,14 +108,14 @@
       if (!texto) return;
 
       agregarMensaje('user', texto);
-      historial.push(texto);
+      historial.push("Tú: " + texto);
       input.value = '';
 
       try {
-        const res = await fetch('https://hook.us2.make.com/laohi79a901jwo6vyam3u5ap7wznfvnb?texto=' + encodeURIComponent(historial.join('\n')));
+        const res = await fetch('https://hook.us2.make.com/laohi79a901jwo6vyam3u5ap7wznfvnb?texto=' + encodeURIComponent(historial.join("\n")));
         const data = await res.text();
         agregarMensaje('bot', data);
-        historial.push(data);
+        historial.push("Asistente: " + data);
       } catch (error) {
         agregarMensaje('bot', 'Error al contactar al agente: ' + error.message);
       }
