@@ -140,10 +140,18 @@
       const div = document.createElement('div');
       div.className = `message ${tipo}-message`;
 
+      // Detectar URLs válidas y convertirlas en botones "Haz clic aquí"
       const enriquecido = texto
         .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-        .replace(/\n/g, '<br>')
-        .replace(/https?:\/\/(\S+)/g, '<a href="$&" target="_blank">Haz clic aquí</a>');
+        .split(/(https?:\/\/\S+)/g)
+        .map(part => {
+          if (/^https?:\/\//.test(part)) {
+            const clean = part.replace(/[)>"']*$/, '');
+            return `<a href="${clean}" target="_blank">Haz clic aquí</a>`;
+          } else {
+            return part.replace(/\n/g, '<br>');
+          }
+        }).join('');
 
       div.innerHTML = enriquecido;
       chat.appendChild(div);
