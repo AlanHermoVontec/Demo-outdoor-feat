@@ -93,6 +93,16 @@
     .bot-message strong {
       color: #004aad;
     }
+    .bot-message a {
+      display: inline-block;
+      margin: 6px 0;
+      padding: 8px 14px;
+      background-color: #004aad;
+      color: #fff;
+      text-decoration: none;
+      border-radius: 8px;
+      font-size: 14px;
+    }
     .mensaje-bienvenida {
       background-color: #fffbea;
       color: #665c00;
@@ -129,7 +139,13 @@
       const chat = document.getElementById('chat');
       const div = document.createElement('div');
       div.className = `message ${tipo}-message`;
-      div.innerHTML = texto.replace(/\n/g, '<br>').replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+
+      const enriquecido = texto
+        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+        .replace(/\n/g, '<br>')
+        .replace(/https?:\/\/(\S+)/g, '<a href="$&" target="_blank">Haz clic aquí</a>');
+
+      div.innerHTML = enriquecido;
       chat.appendChild(div);
       chat.scrollTop = chat.scrollHeight;
     }
