@@ -160,7 +160,7 @@
       agregarMensaje('bot', '<em>Escribiendo...</em>');
 
       try {
-        const res = await fetch('https://hook.us2.make.com/laohi79a901jwo6vyam3u5ap7wznfvnb?texto=' + encodeURIComponent(historial.join("\n")));
+        const res = await fetch('https://hook.us2.make.com/k1l2ly3pvmja887hxy7567ibblprttvi?texto=' + encodeURIComponent(historial.join("\n")));
         const data = await res.text();
         document.querySelectorAll('.bot-message').forEach(el => {
           if (el.innerText === 'Escribiendo...') el.remove();
